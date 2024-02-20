@@ -159,37 +159,42 @@ function SignUpLogin() {
     // Api call to register new user
     async function api_call_to_login_new_user(user) {
         try {
-            const response = await fetch('http://localhost:8080/login_user', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            });
+            let loggedIn_user = {
+                user_name: "null",
+                birthdate: "null",
+                gender: "null",
+                phone: "null",
+                email: "null",
+                password: "null",
+                bio: "null"
+            };
 
-            const server_response = await response.text();
+            try {
+                let response = await fetch('http://localhost:8080/login_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
 
-            let message = "", status = server_response[0];
-            for (let i = 2; i < server_response.length; i++) {
-                message += server_response[i];
+                loggedIn_user = await response.json();
+            } catch {
+                console.log("Internal server error");
             }
 
-            if (status === "0") {
-                document.getElementById('user_email').value = "";
-                document.getElementById('user_password').value = "";
-                set_user_login_information_in_cache(message);
-                //navigate(`/feed/${message}`)
+            if (loggedIn_user.user_name !== "null") {
+                set_user_login_information_in_cache(loggedIn_user);
                 navigate(`/feed`)
                 return;
             }
-            openPopup(message, status);
         } catch (error) {
             openPopup("Internal server error.", "2");
         }
     }
 
     // Setting login date and username in cache to maintain session
-    function set_user_login_information_in_cache(user_name) {
+    function set_user_login_information_in_cache(loggedIn_user) {
         const date = new Date();
 
         let day = date.getDate();
@@ -197,7 +202,13 @@ function SignUpLogin() {
         let year = date.getFullYear();
 
         const touch__user_login_info = {
-            user_name: user_name,
+            user_name: loggedIn_user.user_name,
+            birthdate: loggedIn_user.birthdate,
+            gender: loggedIn_user.gender,
+            phone: loggedIn_user.phone,
+            email: loggedIn_user.email,
+            password: loggedIn_user.password,
+            bio: loggedIn_user.bio,
             login_day: day,
             login_month: month,
             login_year: year

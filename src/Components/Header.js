@@ -8,7 +8,7 @@ import default_user_logo from '../Images/Default User Logo 2.jpg';
 function Header() {
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const [login_user_profile_page_url, set_login_user_profile_page_url] = useState("");
-    console.log(localStorage.getItem("previously_searched_profiles"))
+
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
             set_login_user_profile_page_url("http://localhost:3000/profile/" + user_login_info_from_cache.user_name);

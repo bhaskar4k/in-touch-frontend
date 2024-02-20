@@ -1,5 +1,5 @@
 import '../CSS for Components/Settings.css';
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,6 +8,61 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 function Settings() {
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const logged_in_user_name = user_login_info_from_cache.user_name;
+
+    //#region Filling up user details in settings form
+    const [input_user_name, set_input_user_name] = useState("");
+    const [input_birthdate, set_input_birthdate] = useState("");
+    const [input_birthmonth, set_input_birthmonth] = useState("");
+    const [input_birthyear, set_input_birthyear] = useState("");
+    const [input_phone, set_input_phone] = useState("");
+    const [input_email, set_input_email] = useState("");
+    const [input_password, set_input_password] = useState("");
+
+    useEffect(() => {
+        if (user_login_info_from_cache !== null) {
+            let birthdate = user_login_info_from_cache.birthdate, temp = "";
+            let temp2 = 0;
+            for (let i = 0; i < birthdate.length; i++) {
+                if (birthdate[i] === '.') {
+                    if (temp2 === 0) set_input_birthdate(temp);
+                    else set_input_birthmonth(temp);
+                    temp = "";
+                    temp2++;
+                    continue;
+                }
+                temp += birthdate[i];
+            }
+            set_input_birthyear(temp);
+            set_input_user_name(user_login_info_from_cache.user_name);
+            set_input_phone(user_login_info_from_cache.phone);
+            set_input_email(user_login_info_from_cache.email);
+            set_input_password(user_login_info_from_cache.password);
+        }
+    }, []);
+
+
+    const handleInputChangeUserName = (e) => {
+        set_input_user_name(e.target.value);
+    };
+    const handleInputChangeBirthdate = (e) => {
+        set_input_birthdate(e.target.value);
+    };
+    const handleInputChangeBirthmonth = (e) => {
+        set_input_birthmonth(e.target.value);
+    };
+    const handleInputChangeBirthyear = (e) => {
+        set_input_birthyear(e.target.value);
+    };
+    const handleInputChangePhone = (e) => {
+        set_input_phone(e.target.value);
+    };
+    const handleInputChangeEmail = (e) => {
+        set_input_email(e.target.value);
+    };
+    const handleInputChangePassword = (e) => {
+        set_input_password(e.target.value);
+    };
+    //#endregion
 
     //#region Function to logout/Clearing user_data from cache
     const navigate = useNavigate();
@@ -223,10 +278,12 @@ function Settings() {
                     document.getElementById("dob_date").value = "";
                     document.getElementById("dob_month").value = "";
                     document.getElementById("dob_year").value = "";
+                    logout();
                 }
                 else if (field_name === "phone") {
                     openPopup("Phone updated successfully.", "0");
                     document.getElementById("phone").value = "";
+                    logout();
                 }
                 else if (field_name === "email") {
                     openPopup("Email updated successfully.", "0");
@@ -275,6 +332,30 @@ function Settings() {
     }
     // #endregion ----------------------------------------------------------------------------------------------------------------------------------
 
+    //#region Delete account
+    async function delete_account() {
+        try {
+            const response = await fetch('http://localhost:8080/delete_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(logged_in_user_name)
+            });
+
+            const server_response = await response.text();
+
+            if (server_response[0] === "0") {
+                logout();
+            } else {
+                openPopup("Internal server error.", "2");
+            }
+        } catch (error) {
+            openPopup("Internal server error.", "2");
+        }
+    }
+    //#endregion
+
     const numberInputInvalidChars = ['-', '+', 'e', 'E', '.'];
     return (
         <>
@@ -284,23 +365,23 @@ function Settings() {
                 <div></div>
                 <div className='change_info'>
                     <p>Username</p>
-                    <input type="text" className="change_input_all" id="user_name"></input>
+                    <input type="text" className="change_input_all" id="user_name" value={input_user_name} onChange={handleInputChangeUserName}></input>
                     <button onClick={() => update_service("user_name")}>Update</button>
                 </div>
                 <div className='change_info'>
                     <p>DOB (DD/MM/YYYY)</p>
                     <div className='change_input_birthday'>
-                        <input type="number" id="dob_date" onKeyDown={(e) => {
+                        <input type="number" id="dob_date" value={input_birthdate} onChange={handleInputChangeBirthdate} onKeyDown={(e) => {
                             if (numberInputInvalidChars.includes(e.key)) {
                                 e.preventDefault();
                             }
                         }}></input>
-                        <input type="number" id="dob_month" onKeyDown={(e) => {
+                        <input type="number" id="dob_month" value={input_birthmonth} onChange={handleInputChangeBirthmonth} onKeyDown={(e) => {
                             if (numberInputInvalidChars.includes(e.key)) {
                                 e.preventDefault();
                             }
                         }}></input>
-                        <input type="number" id="dob_year" onKeyDown={(e) => {
+                        <input type="number" id="dob_year" value={input_birthyear} onChange={handleInputChangeBirthyear} onKeyDown={(e) => {
                             if (numberInputInvalidChars.includes(e.key)) {
                                 e.preventDefault();
                             }
@@ -310,7 +391,7 @@ function Settings() {
                 </div>
                 <div className='change_info'>
                     <p>Phone number</p>
-                    <input type="number" className="change_input_all" id="phone" onKeyDown={(e) => {
+                    <input type="number" className="change_input_all" id="phone" value={input_phone} onChange={handleInputChangePhone} onKeyDown={(e) => {
                         if (numberInputInvalidChars.includes(e.key)) {
                             e.preventDefault();
                         }
@@ -319,16 +400,16 @@ function Settings() {
                 </div>
                 <div className='change_info'>
                     <p>Email ID</p>
-                    <input type="text" id="email" className="change_input_all"></input>
+                    <input type="text" id="email" className="change_input_all" value={input_email} onChange={handleInputChangeEmail}></input>
                     <button onClick={() => update_service("email")}>Update</button>
                 </div>
                 <div className='change_info'>
                     <p>Password</p>
-                    <input type="text" id="password" className="change_input_all"></input>
+                    <input type="text" id="password" className="change_input_all" value={input_password} onChange={handleInputChangePassword}></input>
                     <button onClick={() => update_service("password")}>Update</button>
                 </div>
                 <div className='delete_account'>
-                    <button>Delete Account</button>
+                    <button onClick={delete_account}>Delete Account</button>
                 </div>
 
                 <div id="settings_close_btn"><FontAwesomeIcon icon={faTimes} onClick={close_settings} /></div>
