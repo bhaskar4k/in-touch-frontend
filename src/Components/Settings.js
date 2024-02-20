@@ -269,7 +269,6 @@ function Settings() {
                 openPopup("Internal server error.", "2");
             } else {
                 if (field_name === "user_name") {
-                    update_username_in_cache_if_available(updated_value);
                     openPopup("Username updated successfully.", "0");
                     logout();
                 }
@@ -297,38 +296,6 @@ function Settings() {
         } catch (error) {
             openPopup("Internal server error.", "2");
         }
-    }
-
-
-    function update_username_in_cache_if_available(user_name) {
-        let arr = [];
-        const localStorageData = localStorage.getItem('previously_searched_profiles');
-        const retrievedArray = JSON.parse(localStorageData);
-
-        if (localStorageData !== null) {
-            arr = retrievedArray;
-        }
-
-        let low = 0, high = arr.length - 1, position = -1;
-        while (low <= high) {
-            let mid = parseInt(low + (high - low) / 2);
-            console.log("Mid ", mid)
-            if (arr[mid] === logged_in_user_name) {
-                position = mid;
-                break;
-            } else if (arr[mid] > logged_in_user_name) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
-            }
-        }
-
-        if (position === -1) return;
-
-        arr[position] = user_name;
-        arr.sort();
-        localStorage.removeItem("previously_searched_profiles");
-        localStorage.setItem("previously_searched_profiles", JSON.stringify(arr));
     }
     // #endregion ----------------------------------------------------------------------------------------------------------------------------------
 
