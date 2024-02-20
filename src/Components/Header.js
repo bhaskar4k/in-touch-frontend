@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../CSS for Components/Header.css';
 import Searchbar from '../Components/Searchbar.js';
@@ -7,7 +7,15 @@ import default_user_logo from '../Images/Default User Logo 2.jpg';
 
 function Header() {
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
-    const login_user_profile_page_url = "http://localhost:3000/profile/" + user_login_info_from_cache.user_name;
+    const [login_user_profile_page_url, set_login_user_profile_page_url] = useState("");
+    console.log(localStorage.getItem("previously_searched_profiles"))
+    useEffect(() => {
+        if (user_login_info_from_cache !== null) {
+            set_login_user_profile_page_url("http://localhost:3000/profile/" + user_login_info_from_cache.user_name);
+        } else {
+            navigate(`/home`);
+        }
+    }, []);
 
     // #region Function to open/close settings modal----------
     const [setting_component_visible, set_setting_component_visible] = useState(false);
@@ -31,6 +39,7 @@ function Header() {
     function logout() {
         if (localStorage.getItem("touch__user_login_info") !== null) {
             localStorage.removeItem("touch__user_login_info");
+            localStorage.removeItem("previously_searched_profiles");
         }
         navigate(`/home`);
     }

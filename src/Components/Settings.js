@@ -1,5 +1,6 @@
 import '../CSS for Components/Settings.css';
 import { React, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -8,6 +9,14 @@ function Settings() {
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const logged_in_user_name = user_login_info_from_cache.user_name;
 
+    //#region Function to logout/Clearing user_data from cache
+    const navigate = useNavigate();
+    function logout() {
+        localStorage.removeItem("touch__user_login_info");
+        localStorage.removeItem("previously_searched_profiles");
+        navigate(`/home`);
+    }
+    // #endregion ---------------------------------------------------
 
     //#region ------------POPUP-------------------------------------------------------------------------------------------------------------*/
     const [showPopup, setShowPopup] = useState(false);
@@ -130,9 +139,7 @@ function Settings() {
                 return;
             }
 
-            if (api_call_to_update_in_DB(user_name, "user_name") === true) {
-                document.getElementById("user_name").value = "";
-            }
+            api_call_to_update_in_DB(user_name, "user_name");
         }
         else if (input_field_name === "dob") {
             let dob_date = document.getElementById("dob_date").value;
@@ -145,11 +152,7 @@ function Settings() {
             }
 
             let date_of_birth = dob_date + "." + dob_month + "." + dob_year;
-            if (api_call_to_update_in_DB(date_of_birth, "birthdate") === true) {
-                document.getElementById("dob_date").value = "";
-                document.getElementById("dob_month").value = "";
-                document.getElementById("dob_year").value = "";
-            }
+            api_call_to_update_in_DB(date_of_birth, "birthdate");
         }
         else if (input_field_name === "phone") {
             let phone = document.getElementById("phone").value;
@@ -158,9 +161,7 @@ function Settings() {
                 return;
             }
 
-            if (api_call_to_update_in_DB(phone, "phone") === true) {
-                document.getElementById("phone").value = "";
-            }
+            api_call_to_update_in_DB(phone, "phone");
         }
         else if (input_field_name === "email") {
             let email = document.getElementById("email").value;
@@ -169,9 +170,7 @@ function Settings() {
                 return;
             }
 
-            if (api_call_to_update_in_DB(email, "email") === true) {
-                document.getElementById("email").value = "";
-            }
+            api_call_to_update_in_DB(email, "email");
         }
         else if (input_field_name === "password") {
             let password = document.getElementById("password").value;
@@ -180,9 +179,7 @@ function Settings() {
                 return;
             }
 
-            if (api_call_to_update_in_DB(password, "password") === true) {
-                document.getElementById("password").value = "";
-            }
+            api_call_to_update_in_DB(password, "password");
         }
     }
 
@@ -194,7 +191,6 @@ function Settings() {
                 field_name: field_name,
                 user_name: logged_in_user_name
             }
-            console.log(Update_user)
 
             const response = await fetch('http://localhost:8080/update_user_information', {
                 method: 'POST',
@@ -209,45 +205,45 @@ function Settings() {
             if (server_response[0] === "3") {
                 if (field_name === "user_name") {
                     openPopup("Username: [ " + updated_value + " ] is not available/used by other user. Try something new.", "2");
-                    return;
+                }
+                if (field_name === "email") {
+                    openPopup("Email: [ " + updated_value + " ] is not available/used by other user. Try something new.", "2");
                 }
             }
             else if (server_response[0] === "2") {
                 openPopup("Internal server error.", "2");
-                return false;
             } else {
                 if (field_name === "user_name") {
                     update_username_in_cache_if_available(updated_value);
                     openPopup("Username updated successfully.", "0");
-                    return true;
+                    logout();
                 }
                 else if (field_name === "birthdate") {
                     openPopup("Date of birth updated successfully.", "0");
-                    return true;
+                    document.getElementById("dob_date").value = "";
+                    document.getElementById("dob_month").value = "";
+                    document.getElementById("dob_year").value = "";
                 }
                 else if (field_name === "phone") {
                     openPopup("Phone updated successfully.", "0");
-                    return true;
+                    document.getElementById("phone").value = "";
                 }
                 else if (field_name === "email") {
                     openPopup("Email updated successfully.", "0");
-                    return true;
+                    logout();
                 }
                 else if (field_name === "password") {
                     openPopup("Password updated successfully.", "0");
-                    return true;
+                    logout();
                 }
             }
         } catch (error) {
             openPopup("Internal server error.", "2");
-            return false;
         }
-        return false;
     }
 
 
     function update_username_in_cache_if_available(user_name) {
-        console.log("HELLOOOOOOOOOOO", logged_in_user_name, user_name)
         let arr = [];
         const localStorageData = localStorage.getItem('previously_searched_profiles');
         const retrievedArray = JSON.parse(localStorageData);
@@ -269,8 +265,6 @@ function Settings() {
                 low = mid + 1;
             }
         }
-
-        console.log(position);
 
         if (position === -1) return;
 

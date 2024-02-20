@@ -5,7 +5,6 @@ import '../CSS for Components/Feed.css';
 
 function Feed() {
     const navigate = useNavigate();
-    const [user_login_info, set_user_login_info] = useState(null);
     const [loggedin_person_user_name, set_loggedin_person_user_name] = useState(null);
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
 
@@ -14,10 +13,9 @@ function Feed() {
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
             set_loggedin_person_user_name(user_login_info_from_cache.user_name);
-            set_user_login_info(user_login_info_from_cache);
             let screen_height = window.innerHeight;
             document.getElementById("ultimate_parent_of_feed").style.height = "" + (screen_height - 70) + "px";
-            console.log("Feed ", localStorage.getItem('previously_searched_profiles'));
+            document.title = 'Feed/@' + user_login_info_from_cache.user_name;
         } else {
             navigate(`/home`);
         }
