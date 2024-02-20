@@ -17,6 +17,7 @@ function Feed() {
             set_user_login_info(user_login_info_from_cache);
             let screen_height = window.innerHeight;
             document.getElementById("ultimate_parent_of_feed").style.height = "" + (screen_height - 70) + "px";
+            console.log("Feed ", localStorage.getItem('previously_searched_profiles'));
         } else {
             navigate(`/home`);
         }

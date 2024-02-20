@@ -206,31 +206,78 @@ function Settings() {
 
             const server_response = await response.text();
 
-            if (server_response[0] === "2") {
+            if (server_response[0] === "3") {
+                if (field_name === "user_name") {
+                    openPopup("Username: [ " + updated_value + " ] is not available/used by other user. Try something new.", "2");
+                    return;
+                }
+            }
+            else if (server_response[0] === "2") {
                 openPopup("Internal server error.", "2");
                 return false;
             } else {
                 if (field_name === "user_name") {
+                    update_username_in_cache_if_available(updated_value);
                     openPopup("Username updated successfully.", "0");
+                    return true;
                 }
                 else if (field_name === "birthdate") {
                     openPopup("Date of birth updated successfully.", "0");
+                    return true;
                 }
                 else if (field_name === "phone") {
                     openPopup("Phone updated successfully.", "0");
+                    return true;
                 }
                 else if (field_name === "email") {
                     openPopup("Email updated successfully.", "0");
+                    return true;
                 }
                 else if (field_name === "password") {
                     openPopup("Password updated successfully.", "0");
+                    return true;
                 }
-                return true;
             }
         } catch (error) {
             openPopup("Internal server error.", "2");
             return false;
         }
+        return false;
+    }
+
+
+    function update_username_in_cache_if_available(user_name) {
+        console.log("HELLOOOOOOOOOOO", logged_in_user_name, user_name)
+        let arr = [];
+        const localStorageData = localStorage.getItem('previously_searched_profiles');
+        const retrievedArray = JSON.parse(localStorageData);
+
+        if (localStorageData !== null) {
+            arr = retrievedArray;
+        }
+
+        let low = 0, high = arr.length - 1, position = -1;
+        while (low <= high) {
+            let mid = parseInt(low + (high - low) / 2);
+            console.log("Mid ", mid)
+            if (arr[mid] === logged_in_user_name) {
+                position = mid;
+                break;
+            } else if (arr[mid] > logged_in_user_name) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        console.log(position);
+
+        if (position === -1) return;
+
+        arr[position] = user_name;
+        arr.sort();
+        localStorage.removeItem("previously_searched_profiles");
+        localStorage.setItem("previously_searched_profiles", JSON.stringify(arr));
     }
     // #endregion ----------------------------------------------------------------------------------------------------------------------------------
 
