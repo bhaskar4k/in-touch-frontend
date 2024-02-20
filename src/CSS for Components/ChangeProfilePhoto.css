@@ -1,0 +1,11 @@
+.cropping_container{
+    min-width: 600px;
+    min-height: 600px;
+    max-width: 700px;
+    max-height: 700px;
+}
+
+.cropping_image{
+    max-width: 700px;
+    max-height: 700px;
+}
