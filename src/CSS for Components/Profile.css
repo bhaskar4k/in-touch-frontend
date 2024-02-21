@@ -4,6 +4,15 @@
     margin-top: 70px;
 }
 
+#profile_container{
+    max-width: 90%;
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 70px;
+    border-right: 1px solid red;
+    border-left: 1px solid red;
+}
+
 .cropping_container{
     min-width: 600px;
     min-height: 600px;

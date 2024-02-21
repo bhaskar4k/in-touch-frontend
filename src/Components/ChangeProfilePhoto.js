@@ -71,7 +71,7 @@ function ChangeProfilePhoto(props) {
 
     return (
         <>
-            <div className='whole_profile_container'>
+            <div className='change_profile_photo_container'>
                 <input type="file" accept="image/*" id="imageInput" onChange={handleImageChange} />
                 {selectedImage && (<div className='cropping_container'>
                     <Cropper

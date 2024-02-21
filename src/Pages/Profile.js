@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
+import UserProfileDashboard from '../Components/UserProfileDashboard';
 import ChangeProfilePhoto from '../Components/ChangeProfilePhoto';
 
 function Profile() {
@@ -24,6 +25,7 @@ function Profile() {
         if (user_login_info_from_cache !== null) {
             let screen_height = window.innerHeight;
             document.getElementById("whole_profile_container").style.height = "" + (screen_height - 70) + "px";
+            document.getElementById("profile_container").style.height = "" + (screen_height - 70) + "px";
             set_loggedin_person_user_name(user_login_info_from_cache.user_name);
             document.title = 'Profile/@' + requested_username;
 
@@ -66,7 +68,10 @@ function Profile() {
         <>
             <Header />
             <div id='whole_profile_container'>
-                {my_profile && <ChangeProfilePhoto requested_username={requested_username} />}
+                <div id='profile_container'>
+                    <UserProfileDashboard />
+                    {my_profile && <ChangeProfilePhoto requested_username={requested_username} />}
+                </div>
             </div>
         </>
     );

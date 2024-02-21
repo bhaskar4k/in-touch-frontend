@@ -75,7 +75,6 @@ function Header() {
             })
 
             dataa = await response.json();
-            console.log(dataa)
             if (dataa.profile_photo !== "NULL") set_login_user_profile_photo("data:image/jpeg;base64," + dataa.profile_photo)
         } catch {
             console.log("Internal server error");
