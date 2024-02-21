@@ -268,30 +268,7 @@ function Settings() {
             else if (server_response[0] === "2") {
                 openPopup("Internal server error.", "2");
             } else {
-                if (field_name === "user_name") {
-                    openPopup("Username updated successfully.", "0");
-                    logout();
-                }
-                else if (field_name === "birthdate") {
-                    openPopup("Date of birth updated successfully.", "0");
-                    document.getElementById("dob_date").value = "";
-                    document.getElementById("dob_month").value = "";
-                    document.getElementById("dob_year").value = "";
-                    logout();
-                }
-                else if (field_name === "phone") {
-                    openPopup("Phone updated successfully.", "0");
-                    document.getElementById("phone").value = "";
-                    logout();
-                }
-                else if (field_name === "email") {
-                    openPopup("Email updated successfully.", "0");
-                    logout();
-                }
-                else if (field_name === "password") {
-                    openPopup("Password updated successfully.", "0");
-                    logout();
-                }
+                logout();
             }
         } catch (error) {
             openPopup("Internal server error.", "2");

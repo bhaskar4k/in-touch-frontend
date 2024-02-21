@@ -8,9 +8,11 @@ import default_user_logo from '../Images/Default User Logo 2.jpg';
 function Header() {
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const [login_user_profile_page_url, set_login_user_profile_page_url] = useState("");
+    const [login_user_profile_photo, set_login_user_profile_photo] = useState(default_user_logo);
 
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
+            get_profile_photo(user_login_info_from_cache.user_name);
             set_login_user_profile_page_url("http://localhost:3000/profile/" + user_login_info_from_cache.user_name);
         } else {
             navigate(`/home`);
@@ -57,6 +59,30 @@ function Header() {
     }
     // #endregion ---------------------------------------------
 
+    //#region Get profile photo
+    async function get_profile_photo(user_name) {
+        let dataa = {
+            user_name: user_name,
+            profile_photo: "NULL"
+        };
+        try {
+            let response = await fetch('http://localhost:8080/get_profile_photo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: user_name
+            })
+
+            dataa = await response.json();
+            console.log(dataa)
+            if (dataa.profile_photo !== "NULL") set_login_user_profile_photo("data:image/jpeg;base64," + dataa.profile_photo)
+        } catch {
+            console.log("Internal server error");
+        }
+    }
+    //#endregion
+
 
     return (
         <>
@@ -72,7 +98,7 @@ function Header() {
 
                     <div className='header_controls_parent'>
                         <div className='header_controls'>
-                            <img src={default_user_logo} alt="default user logo" onClick={control_user_setting_activity_window} />
+                            <img src={login_user_profile_photo} alt="default user logo" onClick={control_user_setting_activity_window} />
                         </div>
                         <div id="user_setting_activity">
                             <div className='user_activity_container'>
