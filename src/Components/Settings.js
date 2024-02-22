@@ -17,6 +17,7 @@ function Settings() {
     const [input_phone, set_input_phone] = useState("");
     const [input_email, set_input_email] = useState("");
     const [input_password, set_input_password] = useState("");
+    const [input_bio, set_input_bio] = useState("");
 
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
@@ -37,6 +38,7 @@ function Settings() {
             set_input_phone(user_login_info_from_cache.phone);
             set_input_email(user_login_info_from_cache.email);
             set_input_password(user_login_info_from_cache.password);
+            set_input_bio(user_login_info_from_cache.bio);
         }
     }, []);
 
@@ -61,6 +63,9 @@ function Settings() {
     };
     const handleInputChangePassword = (e) => {
         set_input_password(e.target.value);
+    };
+    const handleInputChangeBio = (e) => {
+        set_input_bio(e.target.value);
     };
     //#endregion
 
@@ -176,7 +181,7 @@ function Settings() {
     //#region OPEN/CLOSE settings----------------------------------------------------------------------------------------------------------
     function close_settings() {
         if (document.getElementById("settings_div").style.height === "0px") {
-            document.getElementById("settings_div").style.height = "550px";
+            document.getElementById("settings_div").style.height = "600px";
             document.getElementById("settings_div").style.width = "700px";
         } else {
             document.getElementById("settings_div").style.height = "0px";
@@ -235,6 +240,11 @@ function Settings() {
             }
 
             api_call_to_update_in_DB(password, "password");
+        }
+        else if (input_field_name === "bio") {
+            let bio = document.getElementById("bio").value;
+
+            api_call_to_update_in_DB(bio, "bio");
         }
     }
 
@@ -311,6 +321,11 @@ function Settings() {
                     <p>Username</p>
                     <input type="text" className="change_input_all" id="user_name" value={input_user_name} onChange={handleInputChangeUserName}></input>
                     <button onClick={() => update_service("user_name")}>Update</button>
+                </div>
+                <div className='change_info'>
+                    <p>Bio</p>
+                    <input type="text" className="change_input_all" id="bio" value={input_bio} onChange={handleInputChangeBio}></input>
+                    <button onClick={() => update_service("bio")}>Update</button>
                 </div>
                 <div className='change_info'>
                     <p>DOB (DD/MM/YYYY)</p>

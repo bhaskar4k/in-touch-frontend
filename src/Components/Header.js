@@ -24,7 +24,7 @@ function Header() {
     function setting() {
         if (document.getElementById("settings_div").style.height === "0px") {
             set_setting_component_visible(true);
-            document.getElementById("settings_div").style.height = "550px";
+            document.getElementById("settings_div").style.height = "600px";
             document.getElementById("settings_div").style.width = "700px";
         } else {
             setTimeout(function () {
@@ -101,7 +101,7 @@ function Header() {
                         </div>
                         <div id="user_setting_activity">
                             <div className='user_activity_container'>
-                                <a className='button1' href={login_user_profile_page_url} target='blank'>Profile</a>
+                                <a className='button1' href={login_user_profile_page_url}>Profile</a>
                                 <p className='button1' onClick={setting}>Settings</p>
                                 <p className='button1' onClick={logout}>Logout</p>
                             </div>

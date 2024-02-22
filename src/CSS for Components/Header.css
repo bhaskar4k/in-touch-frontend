@@ -98,6 +98,7 @@
     border-radius: 20px;
     transition: 0.5s all ease-in-out;
     overflow: hidden;
+    z-index: 99;
 }
 
 .user_activity_container{
@@ -107,6 +108,7 @@
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
+    z-index: 99;
 }
 
 .button1{

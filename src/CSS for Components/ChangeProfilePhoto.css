@@ -9,3 +9,7 @@
     max-width: 700px;
     max-height: 700px;
 }
+
+#crop_image_button, #push_cropped_image_into_DB_button{
+    display: none;
+}

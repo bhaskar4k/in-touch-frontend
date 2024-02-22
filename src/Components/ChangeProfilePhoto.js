@@ -12,10 +12,13 @@ function ChangeProfilePhoto(props) {
     const cropperRef = useRef(null);
 
     const handleImageChange = (event) => {
+        setCroppedImage(null);
+        setDisplayCroppedImage(false);
         if (event.target.files && event.target.files.length > 0) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setSelectedImage(e.target.result);
+                document.getElementById("crop_image_button").style.display = "block";
             };
             reader.onerror = (error) => {
                 console.error('Error reading image:', error);
@@ -36,9 +39,11 @@ function ChangeProfilePhoto(props) {
                     setSelectedImage(null);
                     setCroppedImage(croppedImageUrl);
                     setDisplayCroppedImage(true);
+                    document.getElementById("push_cropped_image_into_DB_button").style.display = "block";
                 });
             }
         }
+        document.getElementById("crop_image_button").style.display = "none";
     };
     //#endregion --------------------------------------------------------------------------------------------
 
@@ -61,11 +66,14 @@ function ChangeProfilePhoto(props) {
                 method: 'POST',
                 body: formData
             })
-            const wholeResponse = await response.text();
-            console.log(wholeResponse)
+
+            window.location.reload();
         } catch {
             console.log("0", "Internal server error");
         }
+
+        document.getElementById("crop_image_button").style.display = "none";
+        document.getElementById("push_cropped_image_into_DB_button").style.display = "none";
     }
     // #endregion ----------------------------------------------------------------------------------------------------
 
@@ -87,10 +95,10 @@ function ChangeProfilePhoto(props) {
                 </div>
                 )}
                 <div>
-                    <button onClick={handleCrop}>Crop Image</button>
-                    <button onClick={push_cropped_image_into_DB}>Change profile photo</button>
+                    <button id="crop_image_button" onClick={handleCrop}>Crop Image</button>
+                    <button id="push_cropped_image_into_DB_button" onClick={push_cropped_image_into_DB}>Change profile photo</button>
                 </div>
-                {displayCroppedImage && <img src={croppedImage} alt="Cropped Image" id="output" />}
+                {displayCroppedImage && <img src={croppedImage} alt="" id="output" />}
             </div>
         </>
     );

@@ -4,12 +4,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import UserProfileDashboard from '../Components/UserProfileDashboard';
-import ChangeProfilePhoto from '../Components/ChangeProfilePhoto';
 
 function Profile() {
     //#region Geting username from URL and cache then setting pfl info else logout if there's nothing in cache
     const navigate = useNavigate();
-    const [my_profile, set_my_profile] = useState(null); // true=my pfl, false=other pfl
     const [loggedin_person_user_name, set_loggedin_person_user_name] = useState(null);
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const page_url = window.location.href;
@@ -25,16 +23,9 @@ function Profile() {
         if (user_login_info_from_cache !== null) {
             let screen_height = window.innerHeight;
             document.getElementById("whole_profile_container").style.height = "" + (screen_height - 70) + "px";
-            document.getElementById("profile_container").style.height = "" + (screen_height - 70) + "px";
+            document.getElementById("profile_container").style.height = "" + (screen_height - 80) + "px";
             set_loggedin_person_user_name(user_login_info_from_cache.user_name);
             document.title = 'Profile/@' + requested_username;
-
-            if (user_login_info_from_cache.user_name === requested_username) {
-                set_my_profile(true);
-            } else {
-                set_my_profile(false);
-                update_previously_searched_cache(requested_username);
-            }
         } else {
             navigate(`/home`);
         }
@@ -63,14 +54,12 @@ function Profile() {
     }
     //#endregion
 
-
     return (
         <>
             <Header />
             <div id='whole_profile_container'>
                 <div id='profile_container'>
                     <UserProfileDashboard />
-                    {my_profile && <ChangeProfilePhoto requested_username={requested_username} />}
                 </div>
             </div>
         </>
