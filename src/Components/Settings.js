@@ -78,7 +78,7 @@ function Settings() {
     }
     // #endregion ---------------------------------------------------
 
-    //#region ------------POPUP-------------------------------------------------------------------------------------------------------------*/
+    //#region POPUP
     const [showPopup, setShowPopup] = useState(false);
     const [popup_message, set_popup_message] = useState("");
     const [popup_type, set_popup_type] = useState("");
@@ -96,9 +96,9 @@ function Settings() {
         set_popup_type("");
         setShowPopup(false);
     };
-    //#endregion -----------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
-    //#region ------------VALIDATING FORM INPUT--------------------------------------------------------------------------------------------------*/
+    //#region VALIDATING FORM INPUT
     // Check leap year
     function check_leap_year(year) {
         if (year % 4 === 0) {
@@ -176,19 +176,21 @@ function Settings() {
 
         return true;
     }
-    //#endregion -------------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
-    //#region OPEN/CLOSE settings----------------------------------------------------------------------------------------------------------
+    //#region OPEN/CLOSE settings
     function close_settings() {
         if (document.getElementById("settings_div").style.height === "0px") {
             document.getElementById("settings_div").style.height = "600px";
             document.getElementById("settings_div").style.width = "700px";
+            document.getElementById("settings_div").style.border = "2px solid rgb(0, 140, 255)";
         } else {
             document.getElementById("settings_div").style.height = "0px";
             document.getElementById("settings_div").style.width = "0px";
+            document.getElementById("settings_div").style.border = "none";
         }
     }
-    // #endregion ----------------------------------------------------------------------------------------------------------------------
+    // #endregion
 
     //#region UPDATE CONTROLLER TO REDIRECT RESPECTIVE FUNCTION BASED ON FIELD VALUE NAME------------------------------------------------------
     function update_service(input_field_name) {
@@ -278,11 +280,33 @@ function Settings() {
             else if (server_response[0] === "2") {
                 openPopup("Internal server error.", "2");
             } else {
-                logout();
+                if (field_name === "user_name" || field_name === "birthdate" || field_name === "phone" || field_name === "bio") {
+                    update_localcache_by_newly_updated_user_data(field_name, updated_value);
+                } else {
+                    logout();
+                }
             }
         } catch (error) {
             openPopup("Internal server error.", "2");
         }
+    }
+
+
+    function update_localcache_by_newly_updated_user_data(field_name, value) {
+        localStorage.removeItem("touch__user_login_info");
+
+        if (field_name === "user_name") {
+            user_login_info_from_cache.user_name = value;
+        } else if (field_name === "birthdate") {
+            user_login_info_from_cache.birthdate = value;
+        } else if (field_name === "phone") {
+            user_login_info_from_cache.phone = value;
+        } else {
+            user_login_info_from_cache.bio = value;
+        }
+
+        localStorage.setItem("touch__user_login_info", JSON.stringify(user_login_info_from_cache));
+        window.location.reload();
     }
     // #endregion ----------------------------------------------------------------------------------------------------------------------------------
 

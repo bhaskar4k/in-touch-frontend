@@ -26,6 +26,10 @@ function Profile() {
             document.getElementById("profile_container").style.height = "" + (screen_height - 80) + "px";
             set_loggedin_person_user_name(user_login_info_from_cache.user_name);
             document.title = 'Profile/@' + requested_username;
+
+            if (user_login_info_from_cache.user_name !== requested_username) {
+                update_previously_searched_cache(requested_username);
+            }
         } else {
             navigate(`/home`);
         }

@@ -5,6 +5,8 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.min.css';
 
 function ChangeProfilePhoto(props) {
+    const [selectedFiles, setSelectedFiles] = useState("Drag your files here or click in this area.");
+
     //#region Cropperjs logic to crop the uploaded image------------------------------------------------------
     const [selectedImage, setSelectedImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
@@ -12,6 +14,11 @@ function ChangeProfilePhoto(props) {
     const cropperRef = useRef(null);
 
     const handleImageChange = (event) => {
+        const fileInput = document.getElementById('imageInput');
+        const file = fileInput.files[0];
+        setSelectedFiles(file.name + " has been selected");
+        document.getElementById("imageUpload").style.display = "none";
+
         setCroppedImage(null);
         setDisplayCroppedImage(false);
         if (event.target.files && event.target.files.length > 0) {
@@ -47,7 +54,6 @@ function ChangeProfilePhoto(props) {
     };
     //#endregion --------------------------------------------------------------------------------------------
 
-
     //#region Push the cropped image into database ----------------------------------------------------------------
     async function push_cropped_image_into_DB() {
         const file = document.getElementById('output');
@@ -80,25 +86,30 @@ function ChangeProfilePhoto(props) {
     return (
         <>
             <div className='change_profile_photo_container'>
-                <input type="file" accept="image/*" id="imageInput" onChange={handleImageChange} />
-                {selectedImage && (<div className='cropping_container'>
+                <p className='selected_file_name'>{selectedFiles}</p>
+                <form id="imageUpload">
+                    <input type="file" accept="image/*" id="imageInput" onChange={handleImageChange} />
+                </form>
+
+                {selectedImage && (
                     <Cropper
                         ref={cropperRef}
                         src={selectedImage}
-                        aspectRatio={1 / 1} // Adjust aspect ratio as needed
-                        guides={false} // Remove guides if desired
-                        viewMode={1} // Set view mode for initial zoom
-                        cropmove={true} // Enable crop area movement
-                        cropend={(data) => console.log('Crop data:', data)} // Optionally log crop data
+                        aspectRatio={1 / 1}
+                        guides={false}
+                        viewMode={1}
+                        cropmove={true}
+                        cropend={(data) => console.log('Crop data:', data)}
                         className='cropping_image'
                     />
-                </div>
                 )}
-                <div>
+
+                {displayCroppedImage && <img src={croppedImage} alt="" id="output" />}
+
+                <div className='change_profile_photo_control_btns'>
                     <button id="crop_image_button" onClick={handleCrop}>Crop Image</button>
                     <button id="push_cropped_image_into_DB_button" onClick={push_cropped_image_into_DB}>Change profile photo</button>
                 </div>
-                {displayCroppedImage && <img src={croppedImage} alt="" id="output" />}
             </div>
         </>
     );

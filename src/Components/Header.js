@@ -26,12 +26,14 @@ function Header() {
             set_setting_component_visible(true);
             document.getElementById("settings_div").style.height = "600px";
             document.getElementById("settings_div").style.width = "700px";
+            document.getElementById("settings_div").style.border = "2px solid rgb(0, 140, 255)";
         } else {
             setTimeout(function () {
                 set_setting_component_visible(false);
             }, 300);
             document.getElementById("settings_div").style.height = "0px";
             document.getElementById("settings_div").style.width = "0px";
+            document.getElementById("settings_div").style.border = "none";
         }
     }
     // #endregion --------------------------------------------
@@ -85,7 +87,7 @@ function Header() {
 
     return (
         <>
-            <div className='parent_of_header'>
+            <div className='parent_of_header' id='parent_of_header'>
                 <div className='child_of_header'>
                     <div style={{ display: 'flex' }}>
                         <div className='app_name'>

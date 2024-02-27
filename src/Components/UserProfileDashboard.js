@@ -2,9 +2,11 @@ import { React, useState, useEffect } from 'react';
 import default_user_logo from '../Images/Default User Logo 2.jpg';
 import '../CSS for Components/UserProfileDashboard.css';
 import ChangeProfilePhoto from '../Components/ChangeProfilePhoto';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 function UserProfileDashboard() {
-    let user_data = JSON.parse(localStorage.getItem("touch__user_login_info"));
+    let loggedin_user_data = JSON.parse(localStorage.getItem("touch__user_login_info"));
 
     const [login_user_profile_photo, set_login_user_profile_photo] = useState(default_user_logo);
     const [my_profile, set_my_profile] = useState(null); // true=my pfl, false=other pfl
@@ -16,13 +18,14 @@ function UserProfileDashboard() {
     }
 
     useEffect(() => {
-        get_profile_photo(user_data.user_name)
-        if (user_data.user_name === requested_username) {
+        get_profile_photo(requested_username);
+        if (loggedin_user_data.user_name === requested_username) {
             set_my_profile(true);
         } else {
             set_my_profile(false);
         }
     }, []);
+
 
     //#region Get profile photo
     async function get_profile_photo(user_name) {
@@ -48,18 +51,48 @@ function UserProfileDashboard() {
     }
     //#endregion
 
+
+    //#region Open/Close Profile photo change area
+    const [photo_change_component_visible, set_photo_change_component_visible] = useState(false);
+    function open_changeProfilePhotoComponent() {
+        set_photo_change_component_visible(true);
+        document.getElementById("profile_dashboard_container").style.filter = "blur(5px)";
+        document.getElementById("settings_div").style.filter = "blur(5px)";
+        document.getElementById("container_changeProfilePhotoComponent").style.height = "560px";
+        document.getElementById("container_changeProfilePhotoComponent").style.width = "664px";
+    }
+
+    function close_changeProfilePhotoComponent() {
+        setTimeout(function () {
+            set_photo_change_component_visible(false);
+        }, 300);
+        document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+        document.getElementById("settings_div").style.filter = "blur(0px)";
+        document.getElementById("container_changeProfilePhotoComponent").style.height = "0px";
+        document.getElementById("container_changeProfilePhotoComponent").style.width = "0px";
+    }
+    //#endregion
+
+
     return (
         <>
-            <div className='profile_dashboard_container'>
+            <div id='profile_dashboard_container'>
                 <div className='profile_dashboard_image_container'>
                     <img src={login_user_profile_photo} alt="Thobra"></img>
                 </div>
                 <div className='profile_dashboard_info_container'>
-                    <h1 className='profile_user_name'>@{user_data.user_name}</h1>
-                    <h1 className='profile_bio'>{user_data.bio}</h1>
+                    <h1 className='profile_user_name'>@{loggedin_user_data.user_name}</h1>
+                    <h1 className='profile_bio'>{loggedin_user_data.bio}</h1>
+                    {my_profile && <button onClick={open_changeProfilePhotoComponent}>Update Photo</button>}
                 </div>
             </div>
-            {my_profile && <ChangeProfilePhoto requested_username={requested_username} />}
+
+            {my_profile &&
+                <div id='container_changeProfilePhotoComponent'>
+                    {photo_change_component_visible && <div id='close_changeProfilePhotoComponent' onClick={close_changeProfilePhotoComponent}><FontAwesomeIcon icon={faTimes} /></div>}
+                    {photo_change_component_visible && <ChangeProfilePhoto requested_username={loggedin_user_data.user_name} />}
+                </div>
+            }
         </>
     );
 }
