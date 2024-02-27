@@ -84,6 +84,11 @@ function Header() {
     }
     //#endregion
 
+    //#region Navigate to feed on clicking the name of website
+    function get_back_to_feed() {
+        navigate("/feed");
+    }
+    //#endregion
 
     return (
         <>
@@ -91,7 +96,7 @@ function Header() {
                 <div className='child_of_header'>
                     <div style={{ display: 'flex' }}>
                         <div className='app_name'>
-                            <h1>In Touch</h1>
+                            <h1 onClick={get_back_to_feed}>In Touch</h1>
                         </div>
 
                         <Searchbar />

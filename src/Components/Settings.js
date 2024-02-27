@@ -280,7 +280,7 @@ function Settings() {
             else if (server_response[0] === "2") {
                 openPopup("Internal server error.", "2");
             } else {
-                if (field_name === "user_name" || field_name === "birthdate" || field_name === "phone" || field_name === "bio") {
+                if (field_name === "birthdate" || field_name === "phone" || field_name === "bio") {
                     update_localcache_by_newly_updated_user_data(field_name, updated_value);
                 } else {
                     logout();
@@ -295,9 +295,7 @@ function Settings() {
     function update_localcache_by_newly_updated_user_data(field_name, value) {
         localStorage.removeItem("touch__user_login_info");
 
-        if (field_name === "user_name") {
-            user_login_info_from_cache.user_name = value;
-        } else if (field_name === "birthdate") {
+        if (field_name === "birthdate") {
             user_login_info_from_cache.birthdate = value;
         } else if (field_name === "phone") {
             user_login_info_from_cache.phone = value;
