@@ -5,11 +5,10 @@ import ChangeProfilePhoto from '../Components/ChangeProfilePhoto';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
-function UserProfileDashboard() {
+function UserProfileDashboard(props) {
     //#region Global declarations
     let loggedin_user_data = JSON.parse(localStorage.getItem("touch__user_login_info"));
 
-    const [login_user_profile_photo, set_login_user_profile_photo] = useState(default_user_logo);
     const [my_profile, set_my_profile] = useState(null); // true=my pfl, false=other pfl
     const page_url = window.location.href;
     let requested_username = "";
@@ -20,40 +19,14 @@ function UserProfileDashboard() {
     //#endregion
 
 
-    //#region Getting profile photo from db and setting_my_profile variable true/false to know if it's loggedin user's profile
+    //#region Setting_my_profile variable true/false to know if it's loggedin user's profile
     useEffect(() => {
-        get_profile_photo(requested_username);
         if (loggedin_user_data.user_name === requested_username) {
             set_my_profile(true);
         } else {
             set_my_profile(false);
         }
     }, []);
-    //#endregion
-
-
-    //#region Get profile photo
-    async function get_profile_photo(user_name) {
-        let dataa = {
-            user_name: user_name,
-            profile_photo: "NULL"
-        };
-        try {
-            let response = await fetch('http://localhost:8080/get_profile_photo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: user_name
-            })
-
-            dataa = await response.json();
-
-            if (dataa.profile_photo !== "NULL") set_login_user_profile_photo("data:image/jpeg;base64," + dataa.profile_photo)
-        } catch {
-            console.log("Internal server error");
-        }
-    }
     //#endregion
 
 
@@ -83,11 +56,11 @@ function UserProfileDashboard() {
         <>
             <div id='profile_dashboard_container'>
                 <div className='profile_dashboard_image_container'>
-                    <img src={login_user_profile_photo} alt="Thobra"></img>
+                    <img src={props.profile_photo} alt="Thobra"></img>
                 </div>
                 <div className='profile_dashboard_info_container'>
-                    <h1 className='profile_user_name'>@{loggedin_user_data.user_name}</h1>
-                    <h1 className='profile_bio'>{loggedin_user_data.bio}</h1>
+                    <h1 className='profile_user_name'>@{props.user_name}</h1>
+                    <h1 className='profile_bio'>{props.bio}</h1>
                     {my_profile && <button onClick={open_changeProfilePhotoComponent}>Update Photo</button>}
                 </div>
             </div>
