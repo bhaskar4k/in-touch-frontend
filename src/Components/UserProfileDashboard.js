@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 function UserProfileDashboard() {
+    //#region Global declarations
     let loggedin_user_data = JSON.parse(localStorage.getItem("touch__user_login_info"));
 
     const [login_user_profile_photo, set_login_user_profile_photo] = useState(default_user_logo);
@@ -16,7 +17,10 @@ function UserProfileDashboard() {
     for (let i = 30; i < page_url.length; i++) {
         requested_username += page_url[i];
     }
+    //#endregion
 
+
+    //#region Getting profile photo from db and setting_my_profile variable true/false to know if it's loggedin user's profile
     useEffect(() => {
         get_profile_photo(requested_username);
         if (loggedin_user_data.user_name === requested_username) {
@@ -25,6 +29,7 @@ function UserProfileDashboard() {
             set_my_profile(false);
         }
     }, []);
+    //#endregion
 
 
     //#region Get profile photo

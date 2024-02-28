@@ -17,7 +17,7 @@ function App() {
 
           <Route path="/profile/:message" element={<Profile />} />
 
-          <Route path="*/error" element={<Error />} />
+          <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
     </div>

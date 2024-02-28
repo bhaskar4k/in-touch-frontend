@@ -6,7 +6,7 @@ import Header from '../Components/Header';
 import UserProfileDashboard from '../Components/UserProfileDashboard';
 
 function Profile() {
-    //#region Geting username from URL and cache then setting pfl info else logout if there's nothing in cache
+    //#region Global declarations
     const navigate = useNavigate();
     const [loggedin_person_user_name, set_loggedin_person_user_name] = useState(null);
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
@@ -16,9 +16,9 @@ function Profile() {
     for (let i = 30; i < page_url.length; i++) {
         requested_username += page_url[i];
     }
+    //#endregion
 
-    /* Checking if session is active. If it's active then get
-    user_info from cache else route to signup/login page */
+    //#region Checking if session is active and update previously searched user cache else route to signup/login page
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
             let screen_height = window.innerHeight;
@@ -34,7 +34,7 @@ function Profile() {
             navigate(`/home`);
         }
     }, []);
-    //#endregion ------------------------------------------------------------------------------------------------
+    //#endregion 
 
     //#region Update the searched user cache when a new profile has been opened
     function update_previously_searched_cache(username) {

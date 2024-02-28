@@ -5,14 +5,16 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.min.css';
 
 function ChangeProfilePhoto(props) {
+    //#region Global declarations
     const [selectedFiles, setSelectedFiles] = useState("Drag your files here or click in this area.");
-
-    //#region Cropperjs logic to crop the uploaded image------------------------------------------------------
     const [selectedImage, setSelectedImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
     const [displayCroppedImage, setDisplayCroppedImage] = useState(false);
     const cropperRef = useRef(null);
+    //#endregion
 
+
+    //#region Cropperjs logic to crop the uploaded image
     const handleImageChange = (event) => {
         const fileInput = document.getElementById('imageInput');
         const file = fileInput.files[0];
@@ -52,9 +54,10 @@ function ChangeProfilePhoto(props) {
         }
         document.getElementById("crop_image_button").style.display = "none";
     };
-    //#endregion --------------------------------------------------------------------------------------------
+    //#endregion
 
-    //#region Push the cropped image into database ----------------------------------------------------------------
+
+    //#region Push the cropped image into database
     async function push_cropped_image_into_DB() {
         const file = document.getElementById('output');
         const imageUrl = file.src;
@@ -81,7 +84,7 @@ function ChangeProfilePhoto(props) {
         document.getElementById("crop_image_button").style.display = "none";
         document.getElementById("push_cropped_image_into_DB_button").style.display = "none";
     }
-    // #endregion ----------------------------------------------------------------------------------------------------
+    //#endregion
 
     return (
         <>

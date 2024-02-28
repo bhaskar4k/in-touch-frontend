@@ -6,10 +6,16 @@ import Settings from '../Components/Settings';
 import default_user_logo from '../Images/Default User Logo 2.jpg';
 
 function Header() {
+    //#region Global declarations
+    const navigate = useNavigate();
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const [login_user_profile_page_url, set_login_user_profile_page_url] = useState("");
     const [login_user_profile_photo, set_login_user_profile_photo] = useState(default_user_logo);
+    const [setting_component_visible, set_setting_component_visible] = useState(false);
+    //#endregion
 
+
+    //#region Getting profile photo of loggedin user and setting loggedin user's profile page url 
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
             get_profile_photo(user_login_info_from_cache.user_name);
@@ -18,9 +24,10 @@ function Header() {
             navigate(`/home`);
         }
     }, []);
+    //#endregion
+
 
     // #region Function to open/close settings modal----------
-    const [setting_component_visible, set_setting_component_visible] = useState(false);
     function setting() {
         if (document.getElementById("settings_div").style.height === "0px") {
             set_setting_component_visible(true);
@@ -38,8 +45,8 @@ function Header() {
     }
     // #endregion --------------------------------------------
 
+
     // #region Function to logout/Clearing user_data from cache
-    const navigate = useNavigate();
     function logout() {
         if (localStorage.getItem("touch__user_login_info") !== null) {
             localStorage.removeItem("touch__user_login_info");
@@ -48,6 +55,7 @@ function Header() {
         navigate(`/home`);
     }
     // #endregion ---------------------------------------------------
+
 
     // #region Function to open/close the user activity modal
     function control_user_setting_activity_window() {
@@ -61,7 +69,8 @@ function Header() {
     }
     // #endregion ---------------------------------------------
 
-    //#region Get profile photo
+
+    //#region Get profile photo from database
     async function get_profile_photo(user_name) {
         let dataa = {
             user_name: user_name,
@@ -83,6 +92,7 @@ function Header() {
         }
     }
     //#endregion
+
 
     //#region Navigate to feed on clicking the name of website
     function get_back_to_feed() {

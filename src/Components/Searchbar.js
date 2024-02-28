@@ -8,17 +8,22 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 let current_search = new Set();
 
 function Searchbar() {
-    /* Function to close the search suggession box */
+    //#region Global declarations
+    let current_offset = 0;
+    let list_of_db = "";
+    //#endregion
+
+
+    //#region Function to close the search suggession box 
     function search_result_close_btn() {
         document.getElementById("search_suggession_container").style.display = "none";
         document.getElementById("load_more_button").style.display = "none";
         document.getElementById("no_search_result_text").style.display = "none";
     }
+    //#endregion
 
-    let current_offset = 0;
-    let list_of_db = "";
 
-    /* Function to be called on clicking "Show More from DB" button */
+    //#region Function to be called on clicking "Show More from DB" button
     const fetch_search_items_from_db_on_enter = async (event) => {
         if (event.key === 'Enter') {
             current_offset = 0;
@@ -30,8 +35,10 @@ function Searchbar() {
             fetch_search_items_from_db();
         }
     }
+    //#endregion
 
-    /* fetching user_profiles from db starts with "search_input" prefix */
+
+    //#region fetching user_profiles from db starts with "search_input" prefix
     function fetch_search_items_from_db() {
         try {
             let typed_prefix = document.getElementById("searchbar_input").value;
@@ -56,8 +63,10 @@ function Searchbar() {
             console.log("0", "Internal server error");
         }
     }
+    //#endregion
 
-    /* Function to keep rendering 10 searched results at a time */
+
+    //#region Function to keep rendering 10 searched results at a time
     function render_search_items_from_db(data) {
         if (data.length < 10) {
             document.getElementById("no_search_result_text").style.display = "block";
@@ -74,8 +83,10 @@ function Searchbar() {
 
         document.getElementById("result").innerHTML = list_of_db;
     }
+    //#endregion
 
-    /* Function to create a single search result. Contains a profile photo and username */
+
+    //#region Function to create a single search result. Contains a profile photo and username 
     function create_a_search_result(profile_photo, search_result) {
         //console.log(profile_photo, search_result)
         let element = document.createElement("div");
@@ -108,6 +119,7 @@ function Searchbar() {
 
         return single_suggession;
     }
+    //#endregion
 
 
     return (
@@ -124,7 +136,7 @@ function Searchbar() {
                     <div id="search_result_cancel_btn"><FontAwesomeIcon icon={faTimes} onClick={search_result_close_btn} /></div>
                     <div id="result"></div>
                     <div onClick={load_more_search_items_from_cache} id="load_more_button">Show more...</div>
-                    <div onClick={fetch_search_items_from_db} id="load_more_button_from_db">Show more DB</div>
+                    <div onClick={fetch_search_items_from_db} id="load_more_button_from_db">Show more....</div>
                     <div id="no_search_result_text">[No search result]</div>
                 </div>
             </div>

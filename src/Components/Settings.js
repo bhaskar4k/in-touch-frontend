@@ -6,10 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 function Settings() {
+    //#region Global declarations
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const logged_in_user_name = user_login_info_from_cache.user_name;
-
-    //#region Filling up user details in settings form
     const [input_user_name, set_input_user_name] = useState("");
     const [input_birthdate, set_input_birthdate] = useState("");
     const [input_birthmonth, set_input_birthmonth] = useState("");
@@ -18,7 +17,14 @@ function Settings() {
     const [input_email, set_input_email] = useState("");
     const [input_password, set_input_password] = useState("");
     const [input_bio, set_input_bio] = useState("");
+    const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+    const [popup_message, set_popup_message] = useState("");
+    const [popup_type, set_popup_type] = useState("");
+    //#endregion
 
+
+    //#region Filling up user details in settings form
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
             let birthdate = user_login_info_from_cache.birthdate, temp = "";
@@ -69,8 +75,8 @@ function Settings() {
     };
     //#endregion
 
-    //#region Function to logout/Clearing user_data from cache
-    const navigate = useNavigate();
+
+    //#region Function to logout/Clearing user_data from cache  
     function logout() {
         localStorage.removeItem("touch__user_login_info");
         localStorage.removeItem("previously_searched_profiles");
@@ -78,11 +84,8 @@ function Settings() {
     }
     // #endregion ---------------------------------------------------
 
-    //#region POPUP
-    const [showPopup, setShowPopup] = useState(false);
-    const [popup_message, set_popup_message] = useState("");
-    const [popup_type, set_popup_type] = useState("");
 
+    //#region POPUP
     // Popup open
     const openPopup = (message, type) => {
         set_popup_message(message);
@@ -98,7 +101,8 @@ function Settings() {
     };
     //#endregion
 
-    //#region VALIDATING FORM INPUT
+
+    //#region Validating form input
     // Check leap year
     function check_leap_year(year) {
         if (year % 4 === 0) {
@@ -178,7 +182,8 @@ function Settings() {
     }
     //#endregion
 
-    //#region OPEN/CLOSE settings
+
+    //#region Open/Close settings
     function close_settings() {
         if (document.getElementById("settings_div").style.height === "0px") {
             document.getElementById("settings_div").style.height = "600px";
@@ -192,7 +197,8 @@ function Settings() {
     }
     // #endregion
 
-    //#region UPDATE CONTROLLER TO REDIRECT RESPECTIVE FUNCTION BASED ON FIELD VALUE NAME------------------------------------------------------
+
+    //#region Update function to to update new data
     function update_service(input_field_name) {
         if (input_field_name === "user_name") {
             let user_name = document.getElementById("user_name").value;
@@ -306,7 +312,8 @@ function Settings() {
         localStorage.setItem("touch__user_login_info", JSON.stringify(user_login_info_from_cache));
         window.location.reload();
     }
-    // #endregion ----------------------------------------------------------------------------------------------------------------------------------
+    // #endregion
+
 
     //#region Delete account
     async function delete_account() {
@@ -331,6 +338,7 @@ function Settings() {
         }
     }
     //#endregion
+
 
     const numberInputInvalidChars = ['-', '+', 'e', 'E', '.'];
     return (

@@ -7,10 +7,15 @@ import cancel_button from '../Images/Cancel.png';
 // type 2 = error (red)
 
 const Popup = ({ onClose, message, type }) => {
+    //#region Global declarations
     const [countdown, setCountdown] = useState(10);
     const [width, setWidth] = useState('100%');
     let backgroundColor;
+    let second = 9;
+    //#endregion
 
+
+    //#region Setting up background color of popup
     if (type === "0") {
         backgroundColor = "rgb(15, 179, 0)";
     } else if (type === "1") {
@@ -18,8 +23,10 @@ const Popup = ({ onClose, message, type }) => {
     } else {
         backgroundColor = "rgb(252, 3, 3)";
     }
+    //#endregion
 
-    let second = 9;
+
+    //#region Timer to display the popup and close afterwards
     useEffect(() => {
         const interval = setInterval(() => {
             setCountdown((prevCountdown) => prevCountdown - 1);
@@ -40,6 +47,7 @@ const Popup = ({ onClose, message, type }) => {
     const handleCancel = () => {
         onClose();
     };
+    //#endregion
 
     return (
         <>

@@ -3,6 +3,7 @@
     height: 270px;
     background-color: rgb(36, 36, 36);
     border-radius: 20px;
+    z-index: 0;
 }
 
 .profile_dashboard_image_container{

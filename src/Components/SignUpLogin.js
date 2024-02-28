@@ -6,10 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import LoadingPopup from '../Components/LoadingPopup';
 
 function SignUpLogin() {
+    //#region Global declarations
     const navigate = useNavigate();
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
+    const [showLoadingPopup, setShowLoadingPopup] = useState(false);
+    //#endregion
 
-    // #region Checking if session is active. If it's active then get user_info from cache else route to signup/login page
+
+    // #region Checking if session is active. If it's then navigate to feed
     useEffect(() => {
         if (user_login_info_from_cache !== null) {
             navigate(`/feed`);
@@ -18,47 +22,41 @@ function SignUpLogin() {
     //#endregion -----------------------------------------------------------------------------------------------------------------------------*/
 
 
-    //#region ------------LOADING POPUP-------------------------------------------------------------------------------------------------------------*/
-    const [showLoadingPopup, setShowLoadingPopup] = useState(false);
-
-    // Popup open
+    //#region Loading popup
     const openLoadingPopup = () => {
         setShowLoadingPopup(true);
         document.getElementById("signup_login_box_parent").style.opacity = "0.5";
         document.getElementById("signup_login_box_parent").style.backgroundColor = "black";
     };
 
-    // Popup close
     const closeLoadingPopup = () => {
         setShowLoadingPopup(false);
         document.getElementById("signup_login_box_parent").style.opacity = "1";
         document.getElementById("signup_login_box_parent").style.backgroundColor = "";
     };
-    //#endregion -----------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
 
-    //#region ------------POPUP-------------------------------------------------------------------------------------------------------------*/
+    //#region Notification popup
     const [showPopup, setShowPopup] = useState(false);
     const [popup_message, set_popup_message] = useState("");
     const [popup_type, set_popup_type] = useState("");
 
-    // Popup open
     const openPopup = (message, type) => {
         set_popup_message(message);
         set_popup_type(type);
         setShowPopup(true);
     };
 
-    // Popup close
     const closePopup = () => {
         set_popup_message("");
         set_popup_type("");
         setShowPopup(false);
     };
-    //#endregion -----------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
 
-    //#region ------------COMMON CONTROL--------------------------------------------------------------------------------------------------*/
+    //#region Common control
     // Slider controller of SignUp/Login Form and the text beside it
     function slider() {
         if (document.getElementById("signup_login_type_name").style.left === "0px") {
@@ -130,11 +128,10 @@ function SignUpLogin() {
             do_login();
         }
     }
-    //#endregion -----------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
 
-    //#region ------------LOGIN USER--------------------------------------------------------------------------------------------------------*/
-    // Login user
+    //#region Login User
     function do_login() {
         let email = document.getElementById('user_email').value;
         let password = document.getElementById('user_password').value;
@@ -156,7 +153,6 @@ function SignUpLogin() {
         api_call_to_login_new_user(new_user);
     }
 
-    // Api call to register new user
     async function api_call_to_login_new_user(user) {
         try {
             let loggedIn_user = {
@@ -193,7 +189,6 @@ function SignUpLogin() {
         }
     }
 
-    // Setting login date and username in cache to maintain session
     function set_user_login_information_in_cache(loggedIn_user) {
         const date = new Date();
 
@@ -216,11 +211,10 @@ function SignUpLogin() {
 
         localStorage.setItem("touch__user_login_info", JSON.stringify(touch__user_login_info));
     }
-    //#endregion -----------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
 
-    //#region ------------VALIDATING FORM INPUT--------------------------------------------------------------------------------------------------*/
-    // Check leap year
+    //#region Validating form input
     function check_leap_year(year) {
         if (year % 4 === 0) {
             if (year % 100 === 0) {
@@ -292,7 +286,6 @@ function SignUpLogin() {
         return true;
     }
 
-    // Detection of any empty field before registration/sign up
     function empty_field_detection(name, birth_date, birth_month, birth_year, gender, phone, email, password, repeat_password) {
         console.log(name)
         if (name === "" || name === null || name === undefined) {
@@ -334,11 +327,10 @@ function SignUpLogin() {
 
         return true;
     }
-    //#endregion -------------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
 
-    //#region ------------REGISTERING USER--------------------------------------------------------------------------------------------------*/
-    // Function to push data into DB to register new year
+    //#region Registering user
     function do_registration() {
         openLoadingPopup();
         let user_name = document.getElementById('user_name').value;
@@ -372,7 +364,6 @@ function SignUpLogin() {
         api_call_to_register_new_user(new_user);
     }
 
-    // Api call to register new user
     async function api_call_to_register_new_user(user) {
         try {
             const response = await fetch('http://localhost:8080/register_user', {
@@ -407,7 +398,7 @@ function SignUpLogin() {
         }
         closeLoadingPopup()
     }
-    //#endregion -------------------------------------------------------------------------------------------------------------------------------*/
+    //#endregion
 
 
 
