@@ -193,6 +193,7 @@ function Settings() {
             document.getElementById("settings_div").style.height = "0px";
             document.getElementById("settings_div").style.width = "0px";
             document.getElementById("settings_div").style.border = "none";
+            document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
         }
     }
     // #endregion

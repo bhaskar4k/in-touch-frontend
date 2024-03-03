@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import default_user_logo from '../Images/Default User Logo 2.jpg';
 import '../CSS for Components/UserProfileDashboard.css';
 import ChangeProfilePhoto from '../Components/ChangeProfilePhoto';
+import ViewImage from '../Components/ViewImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
@@ -16,6 +16,8 @@ function UserProfileDashboard(props) {
     for (let i = 30; i < page_url.length; i++) {
         requested_username += page_url[i];
     }
+
+    const [view_clicked_image, set_view_clicked_image] = useState(null);
     //#endregion
 
 
@@ -43,20 +45,36 @@ function UserProfileDashboard(props) {
     function close_changeProfilePhotoComponent() {
         setTimeout(function () {
             set_photo_change_component_visible(false);
+            document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+            document.getElementById("settings_div").style.filter = "blur(0px)";
         }, 300);
-        document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
-        document.getElementById("settings_div").style.filter = "blur(0px)";
         document.getElementById("container_changeProfilePhotoComponent").style.height = "0px";
         document.getElementById("container_changeProfilePhotoComponent").style.width = "0px";
     }
     //#endregion
 
 
+    //#region Open/close View image controller
+    function view_image(url) {
+        set_view_clicked_image(<ViewImage url={url} />);
+        document.getElementById("profile_dashboard_container").style.filter = "blur(5px)";
+        document.getElementById("settings_div").style.filter = "blur(5px)";
+        document.getElementById("view_image").style.display = "block";
+    }
+
+    function close_view_image() {
+        set_view_clicked_image(null);
+        document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+        document.getElementById("view_image").style.display = "none";
+        document.getElementById("settings_div").style.filter = "blur(0px)";
+    }
+    //#endregion
+
     return (
         <>
             <div id='profile_dashboard_container'>
                 <div className='profile_dashboard_image_container'>
-                    <img src={props.profile_photo} alt="Thobra"></img>
+                    <img src={props.profile_photo} alt="Thobra" onClick={() => view_image(props.profile_photo)}></img>
                 </div>
                 <div className='profile_dashboard_info_container'>
                     <h1 className='profile_user_name'>@{props.user_name}</h1>
@@ -71,6 +89,12 @@ function UserProfileDashboard(props) {
                     {photo_change_component_visible && <ChangeProfilePhoto requested_username={loggedin_user_data.user_name} />}
                 </div>
             }
+
+
+            <div id='view_image'>
+                <div className="view_image_close_btn"><FontAwesomeIcon icon={faTimes} onClick={close_view_image} /></div>
+                {view_clicked_image}
+            </div>
         </>
     );
 }

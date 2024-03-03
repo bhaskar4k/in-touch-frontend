@@ -34,9 +34,11 @@ function Header() {
             document.getElementById("settings_div").style.height = "600px";
             document.getElementById("settings_div").style.width = "700px";
             document.getElementById("settings_div").style.border = "2px solid rgb(0, 140, 255)";
+            document.getElementById("profile_dashboard_container").style.filter = "blur(5px)";
         } else {
             setTimeout(function () {
                 set_setting_component_visible(false);
+                document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
             }, 300);
             document.getElementById("settings_div").style.height = "0px";
             document.getElementById("settings_div").style.width = "0px";
