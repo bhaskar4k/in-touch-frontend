@@ -105,4 +105,5 @@
     margin: 10px;
     border-radius: 10px;
     cursor: pointer;
+    border: 2px solid rgb(0, 140, 255);
 }

@@ -37,7 +37,6 @@ function UserProfileDashboard(props) {
     function open_changeProfilePhotoComponent() {
         set_photo_change_component_visible(true);
         document.getElementById("profile_dashboard_container").style.filter = "blur(5px)";
-        document.getElementById("settings_div").style.filter = "blur(5px)";
         document.getElementById("container_changeProfilePhotoComponent").style.height = "560px";
         document.getElementById("container_changeProfilePhotoComponent").style.width = "664px";
     }
@@ -46,7 +45,6 @@ function UserProfileDashboard(props) {
         setTimeout(function () {
             set_photo_change_component_visible(false);
             document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
-            document.getElementById("settings_div").style.filter = "blur(0px)";
         }, 300);
         document.getElementById("container_changeProfilePhotoComponent").style.height = "0px";
         document.getElementById("container_changeProfilePhotoComponent").style.width = "0px";

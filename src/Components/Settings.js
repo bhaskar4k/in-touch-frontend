@@ -193,7 +193,12 @@ function Settings() {
             document.getElementById("settings_div").style.height = "0px";
             document.getElementById("settings_div").style.width = "0px";
             document.getElementById("settings_div").style.border = "none";
-            document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+            if (document.getElementById("profile_container") !== null) {
+                document.getElementById("profile_container").style.filter = "blur(0px)";
+            }
+            if (document.getElementById("actual_feed_container") !== null) {
+                document.getElementById("actual_feed_container").style.filter = "blur(0px)";
+            }
         }
     }
     // #endregion
