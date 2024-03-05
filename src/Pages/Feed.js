@@ -29,8 +29,8 @@ function Feed() {
             <Header />
             <div id="ultimate_parent_of_feed">
                 <div id="actual_feed_container">
-                    {/* <h1>Feed.</h1>
-                    {loggedin_person_user_name} */}
+                    <h1>Feed.</h1>
+                    {loggedin_person_user_name}
                 </div>
             </div>
         </>

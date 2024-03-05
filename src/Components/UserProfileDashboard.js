@@ -37,6 +37,7 @@ function UserProfileDashboard(props) {
     function open_changeProfilePhotoComponent() {
         set_photo_change_component_visible(true);
         document.getElementById("profile_dashboard_container").style.filter = "blur(5px)";
+        document.getElementById("rest_of_profile").style.filter = "blur(5px)";
         document.getElementById("container_changeProfilePhotoComponent").style.height = "560px";
         document.getElementById("container_changeProfilePhotoComponent").style.width = "664px";
     }
@@ -45,6 +46,7 @@ function UserProfileDashboard(props) {
         setTimeout(function () {
             set_photo_change_component_visible(false);
             document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+            document.getElementById("rest_of_profile").style.filter = "blur(0px)";
         }, 300);
         document.getElementById("container_changeProfilePhotoComponent").style.height = "0px";
         document.getElementById("container_changeProfilePhotoComponent").style.width = "0px";
@@ -55,16 +57,12 @@ function UserProfileDashboard(props) {
     //#region Open/close View image controller
     function view_image(url) {
         set_view_clicked_image(<ViewImage url={url} />);
-        document.getElementById("profile_dashboard_container").style.filter = "blur(5px)";
-        document.getElementById("settings_div").style.filter = "blur(5px)";
         document.getElementById("view_image").style.display = "block";
     }
 
     function close_view_image() {
         set_view_clicked_image(null);
-        document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
         document.getElementById("view_image").style.display = "none";
-        document.getElementById("settings_div").style.filter = "blur(0px)";
     }
     //#endregion
 

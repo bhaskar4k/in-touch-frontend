@@ -1,28 +1,26 @@
 #create_post_container{
-    width: 95%;
-    height: 320px;
+    width: 670px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 15px;
     margin-top: 17px;
     background-color: rgb(21, 21, 21);
+    transition: 0.3s all ease-in-out;
 }
 
 #post_text{
-    width: 95%;
-    height: 200px;
+    width: 640px;
+    margin-left: 15px;
     resize: none;
     font-size: 30px;
     outline: none;
     border-radius: 10px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     margin-top: 14px;
     background-color: rgb(36, 36, 36);
     color: white;
     border: none;
+    word-break: break-all;
 }
 
 #post_text::-webkit-scrollbar {
@@ -63,7 +61,6 @@
 .uploaded_image_for_post{
     border: 2px solid rgb(0, 140, 255);
     border-radius: 15px;
-    /* overflow: hidden; */
     width: 270px;
     height: 270px;
     position: absolute;
@@ -92,4 +89,26 @@
     text-align: center;
     border-radius: 50%;
     cursor: pointer;
+}
+
+.add_tag_button{
+    background-color: rgb(0, 140, 255);
+    width: 100px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 15px;
+    position: absolute;
+    bottom: 0;
+    left: 70px;
+}
+
+#tag_insertion_div{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
 }

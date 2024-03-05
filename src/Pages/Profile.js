@@ -147,6 +147,10 @@ function Profile() {
             <div id='whole_profile_container'>
                 <div id='profile_container'>
                     <UserProfileDashboard user_name={requested_username} bio={requested_user_bio} profile_photo={requested_user_photo} />
+
+                    <div id='rest_of_profile'>
+                        <h1>HI</h1>
+                    </div>
                 </div>
             </div>
         </>

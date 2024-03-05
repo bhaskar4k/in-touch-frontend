@@ -49,6 +49,7 @@ function Header() {
                 document.getElementById("container_changeProfilePhotoComponent").style.height = "0px";
                 document.getElementById("container_changeProfilePhotoComponent").style.width = "0px";
                 document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+                document.getElementById("rest_of_profile").style.filter = "blur(0px)";
             }
 
             if (document.getElementById("profile_container") !== null) {
@@ -68,6 +69,7 @@ function Header() {
                 set_setting_component_visible(false);
                 if (document.getElementById("profile_container") !== null) {
                     document.getElementById("profile_container").style.filter = "blur(0px)";
+                    document.getElementById("rest_of_profile").style.filter = "blur(0px)";
                 }
                 if (document.getElementById("actual_feed_container") !== null) {
                     document.getElementById("actual_feed_container").style.filter = "blur(0px)";
@@ -154,6 +156,14 @@ function Header() {
                 document.getElementById("container_changeProfilePhotoComponent").style.height = "0px";
                 document.getElementById("container_changeProfilePhotoComponent").style.width = "0px";
                 document.getElementById("profile_dashboard_container").style.filter = "blur(0px)";
+                document.getElementById("rest_of_profile").style.filter = "blur(0px)";
+            }
+
+            if (document.getElementById("profile_container") !== null) {
+                document.getElementById("profile_container").style.filter = "blur(5px)";
+            }
+            if (document.getElementById("actual_feed_container") !== null) {
+                document.getElementById("actual_feed_container").style.filter = "blur(5px)";
             }
 
             set_create_post_component_visible(true);
@@ -161,12 +171,6 @@ function Header() {
             document.getElementById("create_post_div").style.height = "400px";
             document.getElementById("create_post_div").style.width = "700px";
             document.getElementById("create_post_div").style.border = "3px solid rgb(0, 140, 255)";
-            if (document.getElementById("profile_container") !== null) {
-                document.getElementById("profile_container").style.filter = "blur(5px)";
-            }
-            if (document.getElementById("actual_feed_container") !== null) {
-                document.getElementById("actual_feed_container").style.filter = "blur(5px)";
-            }
         } else {
             setTimeout(function () {
                 set_create_post_component_visible(false);
