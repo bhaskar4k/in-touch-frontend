@@ -67,6 +67,7 @@
     bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
+    overflow: hidden;
 }
 
 .uploaded_image_for_post img{
@@ -80,8 +81,8 @@
 
 .unselect_image{
     position: absolute;
-    right: -12px;
-    top: -12px;
+    right: 5px;
+    top: 5px;
     background-color: white;
     padding: 1px 7px;
     z-index: 1;
