@@ -71,12 +71,16 @@
 }
 
 .uploaded_image_for_post img{
-    width: 100%;
+    /* width: 100%; */
     position: absolute;
     border-radius: 15px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#uploaded_image_for_post{
+    width: 0%;
 }
 
 .unselect_image{
