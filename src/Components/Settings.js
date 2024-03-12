@@ -9,7 +9,6 @@ function Settings() {
     //#region Global declarations
     const user_login_info_from_cache = JSON.parse(localStorage.getItem("touch__user_login_info"));
     const logged_in_user_name = user_login_info_from_cache.user_name;
-    const [input_user_name, set_input_user_name] = useState("");
     const [input_birthdate, set_input_birthdate] = useState("");
     const [input_birthmonth, set_input_birthmonth] = useState("");
     const [input_birthyear, set_input_birthyear] = useState("");
@@ -40,7 +39,6 @@ function Settings() {
                 temp += birthdate[i];
             }
             set_input_birthyear(temp);
-            set_input_user_name(user_login_info_from_cache.user_name);
             set_input_phone(user_login_info_from_cache.phone);
             set_input_email(user_login_info_from_cache.email);
             set_input_password(user_login_info_from_cache.password);
@@ -48,10 +46,6 @@ function Settings() {
         }
     }, []);
 
-
-    const handleInputChangeUserName = (e) => {
-        set_input_user_name(e.target.value);
-    };
     const handleInputChangeBirthdate = (e) => {
         set_input_birthdate(e.target.value);
     };
@@ -206,16 +200,7 @@ function Settings() {
 
     //#region Update function to to update new data
     function update_service(input_field_name) {
-        if (input_field_name === "user_name") {
-            let user_name = document.getElementById("user_name").value;
-
-            if (!empty_field_detection(user_name, "username") || !validate(user_name, "NULL", "NULL", "NULL", "username")) {
-                return;
-            }
-
-            api_call_to_update_in_DB(user_name, "user_name");
-        }
-        else if (input_field_name === "dob") {
+        if (input_field_name === "dob") {
             let dob_date = document.getElementById("dob_date").value;
             let dob_month = document.getElementById("dob_month").value;
             let dob_year = document.getElementById("dob_year").value;
@@ -282,9 +267,6 @@ function Settings() {
             const server_response = await response.text();
 
             if (server_response[0] === "3") {
-                if (field_name === "user_name") {
-                    openPopup("Username: [ " + updated_value + " ] is not available/used by other user. Try something new.", "2");
-                }
                 if (field_name === "email") {
                     openPopup("Email: [ " + updated_value + " ] is not available/used by other user. Try something new.", "2");
                 }
@@ -352,12 +334,6 @@ function Settings() {
             {showPopup && <Popup onClose={closePopup} message={popup_message} type={popup_type} />}
 
             <div className='settings'>
-                <div></div>
-                <div className='change_info'>
-                    <p>Username</p>
-                    <input type="text" className="change_input_all" id="user_name" value={input_user_name} onChange={handleInputChangeUserName}></input>
-                    <button onClick={() => update_service("user_name")}>Update</button>
-                </div>
                 <div className='change_info'>
                     <p>Bio</p>
                     <input type="text" className="change_input_all" id="bio" value={input_bio} onChange={handleInputChangeBio}></input>
