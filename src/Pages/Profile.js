@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
+import DisplayAllPosts from '../Components/DisplayAllPosts';
 import default_user_logo from '../Images/Default User Logo 2.jpg';
 import UserProfileDashboard from '../Components/UserProfileDashboard';
 
@@ -149,7 +150,7 @@ function Profile() {
                     <UserProfileDashboard user_name={requested_username} bio={requested_user_bio} profile_photo={requested_user_photo} />
 
                     <div id='rest_of_profile'>
-                        <h1>HI</h1>
+                        <DisplayAllPosts />
                     </div>
                 </div>
             </div>

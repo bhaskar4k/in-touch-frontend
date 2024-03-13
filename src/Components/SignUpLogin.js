@@ -181,15 +181,20 @@ function SignUpLogin() {
 
             if (loggedIn_user.user_name !== "null") {
                 set_user_login_information_in_cache(loggedIn_user);
-                navigate(`/feed`)
-                return;
+                navigate(`/feed`);
+            } else {
+                openPopup("Incorrect credentials", "2");
             }
         } catch (error) {
             openPopup("Internal server error.", "2");
         }
     }
 
-    function set_user_login_information_in_cache(loggedIn_user) {
+    async function set_user_login_information_in_cache(loggedIn_user) {
+        let url = 'http://localhost:4000/api/get_post_count/' + loggedIn_user.user_name;
+        let response = await fetch(url, { method: 'GET' });
+        let post_count = await response.json();
+
         const date = new Date();
 
         let day = date.getDate();
@@ -206,7 +211,8 @@ function SignUpLogin() {
             bio: loggedIn_user.bio,
             login_day: day,
             login_month: month,
-            login_year: year
+            login_year: year,
+            post_count: post_count.count
         }
 
         localStorage.setItem("touch__user_login_info", JSON.stringify(touch__user_login_info));

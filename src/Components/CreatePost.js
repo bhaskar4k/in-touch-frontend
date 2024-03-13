@@ -225,6 +225,11 @@ function CreatePost() {
                     if (status === "2") {
                         delete_post(post_desc.post_id);
                     } else {
+                        localStorage.removeItem("touch__user_login_info");
+
+                        user_login_info_from_cache.post_count++;
+                        localStorage.setItem("touch__user_login_info", JSON.stringify(user_login_info_from_cache));
+
                         window.location.reload();
                     }
                 } catch {
