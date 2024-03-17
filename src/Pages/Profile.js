@@ -150,12 +150,9 @@ function Profile() {
                     <UserProfileDashboard user_name={requested_username} bio={requested_user_bio} profile_photo={requested_user_photo} />
                 </div>
                 <div id='rest_of_profile'>
-                    <DisplayAllPosts />
+                    <DisplayAllPosts user_name={requested_username} owner_profile_photo={requested_user_photo} />
                 </div>
             </div>
-            {/* <div id='whole_profile_container'>
-                
-            </div> */}
         </>
     );
 }

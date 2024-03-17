@@ -42,7 +42,9 @@ function PostModal(props) {
         <>
             <div className="post_container">
                 <div className="post_heading_info">
-                    <div className="post_owner_photo"></div>
+                    <div className="post_owner_photo">
+                        <img src={props.owner_profile_photo} alt="" />
+                    </div>
                     <div className="post_header">
                         <p className="post_owner_name">@{props.uploader_username}</p>
                         <p className="post_uploaded_time">{props.upload_time}</p>
