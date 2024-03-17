@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import '../CSS for Components/PostModal.css';
+import default_user_logo from '../Images/Default User Logo 2.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faCommentDots, faUpload } from '@fortawesome/free-solid-svg-icons'
 
 
 function PostModal(props) {
@@ -15,11 +18,17 @@ function PostModal(props) {
             let width = img.naturalWidth, height = img.naturalHeight
 
             if (width > height) {
-                document.getElementById(post_photo_container).style.width = "410px";
-                document.getElementById(post_photo).style.width = "400px";
+                document.getElementById(post_photo_container).style.width = "610px";
+                document.getElementById(post_photo).style.width = "600px";
+                document.getElementById(post_photo).style.border = "4px solid rgb(0, 145, 255)";
             } else {
                 document.getElementById(post_photo_container).style.height = "410px";
+                document.getElementById(post_photo_container).style.width = "610px";
+                document.getElementById(post_photo_container).style.borderRadius = "10px";
+                document.getElementById(post_photo_container).style.border = "4px solid rgb(0, 145, 255)";
+                document.getElementById(post_photo_container).style.backgroundImage = "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)";
                 document.getElementById(post_photo).style.height = "400px";
+                document.getElementById(post_photo).style.margin = "0 auto";
             }
 
             document.getElementById(post_photo).style.display = "block";
@@ -47,18 +56,26 @@ function PostModal(props) {
                 </div>
 
                 <div className="engagement">
-                    <div className="like">
-                        <p>like</p>
+                    <div className="like_comment_box_div">
+                        <div className="like">
+                            <FontAwesomeIcon icon={faHeart} />
+                        </div>
+                        <div className="view_comment">
+                            <FontAwesomeIcon icon={faCommentDots} />
+                        </div>
                     </div>
-                    <div className="view_comment">
-                        <button>Comments</button>
+                    <div className="comment">
+                        <input type="text" />
+                        <div className="do_comment">
+                            <FontAwesomeIcon icon={faUpload} />
+                        </div>
                     </div>
                 </div>
 
-                <div className="comment">
+                {/* <div className="comment">
                     <input type="text" />
                     <button>Post</button>
-                </div>
+                </div> */}
             </div>
         </>
     );
