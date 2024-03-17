@@ -1,0 +1,7 @@
+#all_posts{
+    z-index: 0;
+    background-color: rgb(73, 73, 73);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

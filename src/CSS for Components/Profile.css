@@ -1,20 +1,20 @@
-#whole_profile_container{
-    background-color: rgb(73, 73, 73);
-    width: 100vw;
-    margin-top: 70px;
-}
-
 #profile_container{
-    max-width: 90%;
-    width: 1200px;
-    margin: 0 auto;
     margin-top: 70px;
     padding-top: 10px;
     overflow-y: scroll;
+    /* overflow-x: hidden; */
+    background-color: rgb(73, 73, 73);
+    width: 99vw;
 }
 
 #profile_container::-webkit-scrollbar {
   display: none;
+}
+
+.profile_dashboard, #rest_of_profile{
+    max-width: 90%; 
+    width: 1200px;
+    margin: 0 auto;
 }
 
 .cropping_container{

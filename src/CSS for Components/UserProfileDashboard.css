@@ -61,6 +61,7 @@
     height: 0px;
     transition: 0.3s all ease-in-out;
     overflow: hidden;
+    z-index: 200;
 }
 
 #close_changeProfilePhotoComponent{

@@ -100,7 +100,7 @@ function Profile() {
             is_it_a_valid_profile();
 
             let screen_height = window.innerHeight;
-            document.getElementById("whole_profile_container").style.height = "" + (screen_height - 70) + "px";
+            console.log(screen_height)
             document.getElementById("profile_container").style.height = "" + (screen_height - 80) + "px";
             set_loggedin_person_user_name(user_login_info_from_cache.user_name);
             document.title = 'Profile/@' + requested_username;
@@ -145,15 +145,17 @@ function Profile() {
     return (
         <>
             <Header />
-            <div id='whole_profile_container'>
-                <div id='profile_container'>
+            <div id='profile_container'>
+                <div className='profile_dashboard'>
                     <UserProfileDashboard user_name={requested_username} bio={requested_user_bio} profile_photo={requested_user_photo} />
-
-                    <div id='rest_of_profile'>
-                        <DisplayAllPosts />
-                    </div>
+                </div>
+                <div id='rest_of_profile'>
+                    <DisplayAllPosts />
                 </div>
             </div>
+            {/* <div id='whole_profile_container'>
+                
+            </div> */}
         </>
     );
 }
