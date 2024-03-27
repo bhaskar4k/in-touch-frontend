@@ -100,7 +100,6 @@ function Profile() {
             is_it_a_valid_profile();
 
             let screen_height = window.innerHeight;
-            console.log(screen_height)
             document.getElementById("profile_container").style.height = "" + (screen_height - 80) + "px";
             set_loggedin_person_user_name(user_login_info_from_cache.user_name);
             document.title = 'Profile/@' + requested_username;
@@ -150,7 +149,7 @@ function Profile() {
                     <UserProfileDashboard user_name={requested_username} bio={requested_user_bio} profile_photo={requested_user_photo} />
                 </div>
                 <div id='rest_of_profile'>
-                    <DisplayAllPosts user_name={requested_username} owner_profile_photo={requested_user_photo} />
+                    <DisplayAllPosts user_name={requested_username} />
                 </div>
             </div>
         </>

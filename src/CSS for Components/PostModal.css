@@ -7,6 +7,7 @@
     padding: 10px;
     border-radius: 20px;
     margin: 15px 0px;
+    transition: 0.5s all ease-in-out;
 }
 
 .post_heading_info{
@@ -84,9 +85,12 @@
 
 .like{
     width: 40px;
-    color: white;
     font-size: 35px;
     cursor: pointer;
+}
+
+#like{
+    color: white;
 }
 
 .view_comment{
