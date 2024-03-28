@@ -5,6 +5,7 @@
     background-color: rgb(23, 23, 23);
     border-radius: 15px;
     overflow: hidden;
+    margin-bottom: 30px;
 }
 
 #comment_box{
@@ -30,4 +31,16 @@
 
 #comment_box::-webkit-scrollbar-track {
   background-color: rgb(23, 23, 23);
+}
+
+.load_more_comment_btn{
+  position: absolute;
+  background-color: rgb(0, 145, 255);
+  right: 10px;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-top: 7px;
+  cursor: pointer;
 }

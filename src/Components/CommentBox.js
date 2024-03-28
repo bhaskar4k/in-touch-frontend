@@ -25,7 +25,6 @@ function CommentBox(props) {
                         username={newComment.username}
                         comment_desc={newComment.comment_description}
                         upload_time={newComment.upload_date + " " + newComment.upload_time}
-                        loggedin_user_profile_photo={props.loggedin_user_profile_photo}
                     />
                 );
 
@@ -58,7 +57,6 @@ function CommentBox(props) {
                         username={all_comment[i].username}
                         comment_desc={all_comment[i].comment_description}
                         upload_time={all_comment[i].upload_date + " " + all_comment[i].upload_time}
-                        loggedin_user_profile_photo={props.loggedin_user_profile_photo}
                     />
                 )
             }
@@ -72,12 +70,19 @@ function CommentBox(props) {
     useEffect(() => {
         get_comment();
     }, []);
+
+    function load_more_comment() {
+        offset += 10;
+        get_comment();
+    }
     //#endregion
+
 
     return (
         <>
             <div id="comment_box_container">
                 <div id="comment_box">{comment}</div>
+                <button className="load_more_comment_btn" onClick={load_more_comment}>Load more...</button>
             </div>
         </>
     );
